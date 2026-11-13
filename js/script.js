@@ -498,7 +498,7 @@ function initTrackingPage() {
     // Append customer & office context to subtitle while preserving exact layout
     const subtitleEl = document.getElementById('hero-subtitle');
     if (subtitleEl && savedCustomerName && savedOfficeRoom) {
-        subtitleEl.innerText = `${StateConfigs[stateKey].subtitle} (${savedCustomerName}  Room ${savedOfficeRoom})`;
+        subtitleEl.innerText = `${StateConfigs[stateKey].subtitle} (${savedCustomerName} - Room ${savedOfficeRoom})`;
     }
 }
 
