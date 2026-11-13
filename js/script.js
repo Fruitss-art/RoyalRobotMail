@@ -11,7 +11,7 @@ const customers = [
         name: "Sarah Johnson",
         email: "sarah.johnson@royalrobotmail.com",
         phone: "+44 7700 900111",
-        officeRoom: "A-204",
+        officeRoom: "Y8-204",
         password: "Sarah123!",
         trackingNumber: "RRM001",
         status: "Processing"
@@ -20,7 +20,7 @@ const customers = [
         name: "Michael Brown",
         email: "michael.brown@royalrobotmail.com",
         phone: "+44 7700 900222",
-        officeRoom: "B-118",
+        officeRoom: "Y8-118",
         password: "Michael123!",
         trackingNumber: "RRM002",
         status: "Out for Delivery"
@@ -29,7 +29,7 @@ const customers = [
         name: "Emma Wilson",
         email: "emma.wilson@royalrobotmail.com",
         phone: "+44 7700 900333",
-        officeRoom: "C-307",
+        officeRoom: "Y8-307",
         password: "Emma123!",
         trackingNumber: "RRM003",
         status: "Delivered"
@@ -498,7 +498,7 @@ function initTrackingPage() {
     // Append customer & office context to subtitle while preserving exact layout
     const subtitleEl = document.getElementById('hero-subtitle');
     if (subtitleEl && savedCustomerName && savedOfficeRoom) {
-        subtitleEl.innerText = `${StateConfigs[stateKey].subtitle} (${savedCustomerName} • Room ${savedOfficeRoom})`;
+        subtitleEl.innerText = `${StateConfigs[stateKey].subtitle} (${savedCustomerName} Â• Room ${savedOfficeRoom})`;
     }
 }
 
@@ -669,9 +669,9 @@ const DashboardData = {
     ],
 
     dispatchQueue: [
-        { recipient: 'Michael Brown (RRM002)', room: 'B-118', priority: 'High' },
-        { recipient: 'Sarah Johnson (RRM001)', room: 'A-204', priority: 'Normal' },
-        { recipient: 'Emma Wilson (RRM003)', room: 'C-307', priority: 'Normal' }
+        { recipient: 'Michael Brown (RRM002)', room: 'Y8-118', priority: 'High' },
+        { recipient: 'Sarah Johnson (RRM001)', room: 'Y8-204', priority: 'Normal' },
+        { recipient: 'Emma Wilson (RRM003)', room: 'Y8-307', priority: 'Normal' }
     ],
 
     failedDeliveries: [
@@ -700,7 +700,7 @@ function initWorkerDashboard() {
 
     if (workerBadge && savedWorkerId) {
         workerBadge.textContent = savedWorkerName
-            ? `${savedWorkerName} (${savedWorkerId}) • ${savedWorkerRole}`
+            ? `${savedWorkerName} (${savedWorkerId}) Â• ${savedWorkerRole}`
             : `Staff ID: ${savedWorkerId}`;
     }
 
