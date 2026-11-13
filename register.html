@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Account Registration - Royal Robot Mail</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Consolidated Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="page-register min-h-screen flex flex-col justify-between selection:bg-[#D71920] selection:text-white">
+
+    <!-- 1. Header bar -->
+    <header class="bg-[#D71920] w-full py-4 px-4 sm:px-6 md:px-12 shadow-sm border-b border-[#B51218] sticky top-0 z-40">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+            <!-- Brand Logo and Text -->
+            <a href="index.html" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-amber-300 rounded py-1 px-1.5" aria-label="Royal Robot Mail Homepage">
+
+                <!-- LOGO -->
+                <div class="logo-container flex-shrink-0 flex items-center justify-center">
+                    <img src="robotmaillogo.png" alt="Royal Robot Mail Logo" class="h-9 sm:h-10 w-auto object-contain"
+                         onerror="this.onerror=null; this.src='https://placehold.co/100x40/ffffff/D71920?text=RRM';">
+                </div>
+
+                <div class="flex flex-col">
+                    <!-- Gold "Royal Robot Mail" Heading -->
+                    <span class="font-black text-xl sm:text-2xl tracking-wider leading-none uppercase font-sans text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-300 to-yellow-500 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                        Royal Robot Mail
+                    </span>
+                </div>
+            </a>
+
+            <!-- Help and support button -->
+            <div class="flex items-center gap-4 text-white text-xs sm:text-sm font-medium">
+                <a href="#help" onclick="showNotification('Support', 'Need help with registration? Call our customer desk at 03457 740 740.')" class="hover:underline flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-white rounded px-2 py-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Help & Support</span>
+                </a>
+                <span class="text-white/40 hidden sm:inline">|</span>
+                <span class="text-white/90 hidden sm:inline-block">GB (EN)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WRAPPER -->
+    <div class="flex-grow flex flex-col">
+
+        <!-- 2. Intro section -->
+        <section class="bg-white w-full pt-6 sm:pt-8 pb-8 sm:pb-10 border-b border-gray-200">
+            <div class="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8">
+
+                <!-- Back Link -->
+                <div class="mb-6">
+                    <button type="button"
+                            onclick="handleBackClick()"
+                            class="inline-flex items-center text-sm font-semibold text-[#666666] hover:text-[#111111] transition-colors group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D71920] rounded px-1.5 py-0.5 -ml-1.5">
+                        <svg class="w-4 h-4 mr-1.5 transform group-hover:-translate-x-0.5 transition-transform text-[#666666] group-hover:text-[#111111]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back
+                    </button>
+                </div>
+
+                <!-- Progress Bar and Indicator -->
+                <div class="max-w-md mb-8">
+                    <div class="flex justify-between items-center text-xs sm:text-sm font-semibold text-[#666666] mb-2 tracking-wide uppercase">
+                        <span id="stepIndicatorText">Step 1 of 2</span>
+                        <span id="stepNameText" class="text-[#111111] font-bold">Personal Details</span>
+                    </div>
+                    <div class="w-full bg-gray-200 h-2.5 rounded-none overflow-hidden" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" id="progressBarContainer">
+                        <div id="progressBarFill" class="bg-[#D71920] h-full transition-all duration-500 ease-in-out w-[50%] rounded-none"></div>
+                    </div>
+                </div>
+
+                <!-- Page Headline -->
+                <h1 id="pageTitle" class="text-4xl sm:text-5xl md:text-[54px] font-bold text-[#111111] tracking-tight leading-tight mb-3">
+                    Personal account
+                </h1>
+
+                <!-- Subtitle -->
+                <p id="pageSubtitle" class="text-base sm:text-lg text-[#666666] font-normal mb-3">
+                    We just need a few details.
+                </p>
+
+                <!-- Required Fields Notice -->
+                <p class="text-xs sm:text-sm text-[#666666] font-normal">
+                    <span class="text-[#D71920] font-bold text-base leading-none">*</span> Indicates a required field
+                </p>
+
+            </div>
+        </section>
+
+        <!-- 3. Form section -->
+        <section class="bg-[#F3F3F3] w-full flex-grow py-8 sm:py-12 px-4 sm:px-6 flex flex-col items-center justify-start border-b border-gray-300">
+
+            <!-- STEP 1: First Name, Last Name, Email Address, Phone Number -->
+            <div id="step1Card" class="w-full max-w-[460px] bg-white rounded-none border border-[#D5D5D5] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-6 sm:p-8 transition-all duration-300">
+
+                <h2 class="text-xl sm:text-2xl font-bold text-[#111111] mb-6 pb-3 border-b border-gray-100">
+                    Your details
+                </h2>
+
+                <form id="registrationForm" onsubmit="handleStep1Next(event)" class="space-y-5" novalidate>
+
+                    <!-- 1. First Name -->
+                    <div class="form-group flex flex-col">
+                        <label for="firstName" class="text-sm font-bold text-[#111111] mb-1.5">
+                            First Name <span class="text-[#D71920] font-bold" aria-hidden="true">*</span>
+                        </label>
+                        <input type="text"
+                               id="firstName"
+                               name="firstName"
+                               autocomplete="given-name"
+                               required
+                               aria-required="true"
+                               aria-describedby="firstNameError"
+                               placeholder="e.g. Jane"
+                               onblur="validateRegField('firstName')"
+                               oninput="clearError('firstName')"
+                               class="custom-input w-full px-3.5 py-3 rounded-none text-sm sm:text-base font-normal placeholder-gray-400 focus:outline-none">
+                        <span id="firstNameError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1" role="alert">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Please enter your first name.</span>
+                        </span>
+                    </div>
+
+                    <!-- 2. Last Name -->
+                    <div class="form-group flex flex-col">
+                        <label for="lastName" class="text-sm font-bold text-[#111111] mb-1.5">
+                            Last Name <span class="text-[#D71920] font-bold" aria-hidden="true">*</span>
+                        </label>
+                        <input type="text"
+                               id="lastName"
+                               name="lastName"
+                               autocomplete="family-name"
+                               required
+                               aria-required="true"
+                               aria-describedby="lastNameError"
+                               placeholder="e.g. Smith"
+                               onblur="validateRegField('lastName')"
+                               oninput="clearError('lastName')"
+                               class="custom-input w-full px-3.5 py-3 rounded-none text-sm sm:text-base font-normal placeholder-gray-400 focus:outline-none">
+                        <span id="lastNameError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1" role="alert">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Please enter your last name.</span>
+                        </span>
+                    </div>
+
+                    <!-- 3. Email Address -->
+                    <div class="form-group flex flex-col">
+                        <label for="email" class="text-sm font-bold text-[#111111] mb-1.5 flex items-center justify-between">
+                            <span>Email Address <span class="text-[#D71920] font-bold" aria-hidden="true">*</span></span>
+                        </label>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               autocomplete="email"
+                               required
+                               aria-required="true"
+                               aria-describedby="emailError"
+                               placeholder="name@example.com"
+                               onblur="validateRegField('email')"
+                               oninput="clearError('email')"
+                               class="custom-input w-full px-3.5 py-3 rounded-none text-sm sm:text-base font-normal placeholder-gray-400 focus:outline-none">
+                        <span id="emailError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1" role="alert">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span id="emailErrorText">Please enter a valid email address.</span>
+                        </span>
+                    </div>
+
+                    <!-- 4. Phone Number -->
+                    <div class="form-group flex flex-col">
+                        <label for="phone" class="text-sm font-bold text-[#111111] mb-1.5">
+                            Phone Number <span class="text-[#D71920] font-bold" aria-hidden="true">*</span>
+                        </label>
+                        <input type="tel"
+                               id="phone"
+                               name="phone"
+                               autocomplete="tel"
+                               required
+                               aria-required="true"
+                               aria-describedby="phoneError"
+                               placeholder="e.g. 07700 900077"
+                               onblur="validateRegField('phone')"
+                               oninput="clearError('phone')"
+                               class="custom-input w-full px-3.5 py-3 rounded-none text-sm sm:text-base font-normal placeholder-gray-400 focus:outline-none">
+                        <span id="phoneError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1" role="alert">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Please enter a valid phone number.</span>
+                        </span>
+                    </div>
+
+                    <!-- Next Button -->
+                    <div class="pt-4">
+                        <button type="submit"
+                                id="nextStepBtn"
+                                class="btn-primary w-full py-3.5 px-6 text-white font-bold text-lg rounded-none shadow-sm flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-[#D71920]/30 cursor-pointer">
+                            <span>Next</span>
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- Secondary Assistance Links -->
+                <div class="mt-6 pt-5 border-t border-gray-100 text-center">
+                    <p class="text-xs text-[#666666]">
+                        Already registered?
+                        <a href="login.html" class="text-[#D71920] font-bold hover:underline focus:outline-none focus:ring-1 focus:ring-[#D71920] rounded px-1">
+                            Sign in to your account
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- STEP 2: Office Room Number, Password, Confirm Password -->
+            <div id="step2Card" class="w-full max-w-[460px] bg-white rounded-none border border-[#D5D5D5] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-6 sm:p-8 hidden">
+                <div class="flex items-center gap-2 text-emerald-600 font-semibold text-sm mb-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Step 1 Verified</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-[#111111] mb-2">
+                    Office &amp; Security Credentials
+                </h2>
+                <p class="text-xs text-[#666666] mb-6 border-b border-gray-100 pb-4">
+                    Set up your delivery office and password for <span id="summaryEmail" class="font-bold text-[#111111]"></span>
+                </p>
+
+                <form id="step2Form" onsubmit="handleStep2Submit(event)" class="space-y-5" novalidate>
+                    <!-- Office Room Number -->
+                    <div class="form-group flex flex-col">
+                        <label for="officeRoom" class="text-sm font-bold text-[#111111] mb-1.5">
+                            Office Room Number <span class="text-[#D71920] font-bold">*</span>
+                        </label>
+                        <input type="text"
+                               id="officeRoom"
+                               name="officeRoom"
+                               required
+                               placeholder="e.g. Y8-214"
+                               onblur="validateRegField('officeRoom')"
+                               oninput="clearError('officeRoom')"
+                               class="custom-input w-full px-3.5 py-3 rounded-none text-sm sm:text-base focus:outline-none">
+                        <span id="officeRoomError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1" role="alert">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Please enter your office room number.</span>
+                        </span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group flex flex-col">
+                        <label for="password" class="text-sm font-bold text-[#111111] mb-1.5">
+                            Password <span class="text-[#D71920] font-bold">*</span>
+                        </label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               required
+                               placeholder="Minimum 8 characters"
+                               onblur="validateRegField('password')"
+                               oninput="clearError('password')"
+                               class="custom-input w-full px-3.5 py-3 rounded-none text-sm sm:text-base focus:outline-none">
+                        <span id="passwordError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1" role="alert">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Password must be at least 8 characters long.</span>
+                        </span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group flex flex-col">
+                        <label for="confirmPassword" class="text-sm font-bold text-[#111111] mb-1.5">
+                            Confirm Password <span class="text-[#D71920] font-bold">*</span>
+                        </label>
+                        <input type="password"
+                               id="confirmPassword"
+                               name="confirmPassword"
+                               required
+                               placeholder="Re-enter password"
+                               onblur="validateRegField('confirmPassword')"
+                               oninput="clearError('confirmPassword')"
+                               class="custom-input w-full px-3.5 py-3 rounded-none text-sm sm:text-base focus:outline-none">
+                        <span id="confirmPasswordError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1" role="alert">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Passwords do not match.</span>
+                        </span>
+                    </div>
+
+                    <div class="pt-4 flex gap-3">
+                        <button type="button"
+                                onclick="goToRegStep(1)"
+                                class="w-1/3 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-[#111111] font-bold text-base rounded-none transition cursor-pointer">
+                            Back
+                        </button>
+                        <button type="submit"
+                                id="submitRegBtn"
+                                class="btn-primary w-2/3 py-3 px-6 text-white font-bold text-base rounded-none shadow-sm flex items-center justify-center gap-2 cursor-pointer">
+                            <span>Submit</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Notifications -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 max-w-sm bg-[#111111] text-white p-4 rounded-md shadow-xl flex items-start gap-3 translate-y-24 opacity-0 transition-all duration-300 z-50">
+        <div class="w-6 h-6 text-[#D71920] shrink-0 mt-0.5">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 102 0v-4a1 1 0 10-2 0v4z" clip-rule="evenodd" />
+            </svg>
+        </div>
+        <div class="flex-grow">
+            <h4 id="toastTitle" class="text-sm font-bold text-white mb-0.5">Notification</h4>
+            <p id="toastMessage" class="text-xs text-gray-300">Message content here.</p>
+        </div>
+        <button type="button" onclick="hideToast()" class="text-gray-400 hover:text-white text-xs font-bold p-1">✕</button>
+    </div>
+
+    <!-- Consolidated JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>

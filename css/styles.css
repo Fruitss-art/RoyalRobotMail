@@ -1,0 +1,242 @@
+﻿/* ==========================================================================
+   ROYAL ROBOT MAIL - CONSOLIDATED STYLESHEET
+   Preserves all original colours, typography, spacing, borders, and effects
+   ========================================================================== */
+
+:root {
+    --brand-red: #D71920;
+    --brand-yellow: #FFD200;
+    --brand-dark: #111111;
+    --brand-grey: #666666;
+    --brand-gray-light: #F2F2F2;
+}
+
+/* ==========================================================================
+   1. HOMEPAGE STYLES (index.html)
+   ========================================================================== */
+body.page-home {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #FFFFFF;
+    color: var(--brand-dark);
+}
+
+/* Clean Flat Red Text with Flat Yellow Stroke (NO 3D/SHADOW/GRADIENT EFFECTS) */
+.hero-title-flat {
+    color: #D71920;
+    -webkit-text-stroke: 1.5px #FFD200;
+    paint-order: stroke fill;
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+/* Homepage Custom Input Styling */
+.page-home .custom-input {
+    border: 1px solid #D1D5DB;
+    transition: border-color 0.15s ease-in-out;
+    border-radius: 0.375rem;
+}
+
+    .page-home .custom-input:focus {
+        border-color: #D71920;
+        outline: none;
+    }
+
+/* ==========================================================================
+   2. REGISTRATION PAGE STYLES (register.html)
+   ========================================================================== */
+body.page-register {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #ffffff;
+    color: #111111;
+    -webkit-font-smoothing: antialiased;
+}
+
+.page-register .custom-input {
+    border: 1px solid #BEBEBE;
+    border-radius: 0px !important;
+    color: #111111;
+    background-color: #FFFFFF;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+    .page-register .custom-input:hover {
+        border-color: #666666;
+    }
+
+    .page-register .custom-input:focus {
+        border-color: #D71920;
+        outline: 2px solid #D71920;
+        outline-offset: 0px;
+        box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.15);
+    }
+
+    .page-register .custom-input.input-error {
+        border-color: #D71920;
+        background-color: #FFF8F8;
+    }
+
+        .page-register .custom-input.input-error:focus {
+            outline: 2px solid #D71920;
+            box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.2);
+        }
+
+.page-register .btn-primary {
+    background-color: #D71920;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .page-register .btn-primary:hover {
+        background-color: #B51218;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(215, 25, 32, 0.25);
+    }
+
+    .page-register .btn-primary:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F3F3F3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #BEBEBE;
+    border-radius: 4px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #666666;
+    }
+
+/* ==========================================================================
+   3. SECURE LOGIN & WORKER LOGIN PAGE STYLES (login.html & worker-login.html)
+   ========================================================================== */
+body.page-login *,
+body.page-worker-login * {
+    border-radius: 0px !important;
+}
+
+body.page-login,
+body.page-worker-login {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #F3F3F3;
+    color: #111111;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle background watermark pattern */
+.bg-watermark {
+    background-color: #F3F3F3;
+    background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Custom Input Styling for Login & Worker Login */
+.page-login .custom-input,
+.page-worker-login .custom-input {
+    border: 1px solid #BEBEBE;
+    color: #111111;
+    background-color: #FFFFFF;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+    .page-login .custom-input:hover,
+    .page-worker-login .custom-input:hover {
+        border-color: #666666;
+    }
+
+    .page-login .custom-input:focus,
+    .page-worker-login .custom-input:focus {
+        border-color: #D71920;
+        outline: 2px solid #D71920;
+        outline-offset: 0px;
+        box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.15);
+    }
+
+    .page-login .custom-input.input-error,
+    .page-worker-login .custom-input.input-error {
+        border-color: #D71920;
+        background-color: #FFF8F8;
+    }
+
+/* Solid red primary button */
+.page-login .btn-primary,
+.page-worker-login .btn-primary {
+    background-color: #D71920;
+    transition: all 0.2s ease-in-out;
+}
+
+    .page-login .btn-primary:hover,
+    .page-worker-login .btn-primary:hover {
+        background-color: #B51218;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(215, 25, 32, 0.2);
+    }
+
+    .page-login .btn-primary:active,
+    .page-worker-login .btn-primary:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+
+/* Outlined Button Styling */
+.btn-outline {
+    border: 2px solid #D71920;
+    color: #D71920;
+    transition: all 0.2s ease-in-out;
+}
+
+    .btn-outline:hover {
+        background-color: #D71920;
+        color: #FFFFFF;
+    }
+
+/* Custom Tooltip Styling */
+.tooltip-popover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   4. TRACKING PAGE STYLES (tracking.html)
+   ========================================================================== */
+body.page-tracking * {
+    border-radius: 0px !important;
+}
+
+body.page-tracking {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #FFFFFF;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Pixelated checkmark */
+.pixel-icon {
+    shape-rendering: crispEdges;
+}
+
+/* ==========================================================================
+   5. WORKER DASHBOARD STYLES (worker-dashboard.html)
+   ========================================================================== */
+body.page-worker-dashboard * {
+    border-radius: 0px !important;
+}
+
+body.page-worker-dashboard {
+    background-color: #F2F2F2;
+    color: #111827;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.plain-card {
+    background-color: #FFFFFF;
+    border: 1px solid #D1D5DB;
+}

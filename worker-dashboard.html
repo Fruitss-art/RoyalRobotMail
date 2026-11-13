@@ -1,0 +1,331 @@
+﻿<!-- WORKER DASHBOARD PAGE START -->
+<!DOCTYPE html>
+<html lang="en" class="text-[16px]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Space | Royal Robot Mail</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Inter Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Consolidated Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="page-worker-dashboard min-h-screen flex flex-col">
+
+    <!-- 1. Header with Logo -->
+    <header class="bg-[#D71920] border-b-4 border-[#FFD200]">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 bg-white border border-[#FFD200] flex items-center justify-center shrink-0">
+                    <img src="robotmaillogo.png" alt="Royal Robot Mail Logo" class="w-9 h-9 object-contain"
+                         onerror="this.onerror=null; this.parentNode.innerHTML='<span class=\'text-xs font-extrabold text-[#D71920]\'>RRM</span>';">
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-white leading-tight">Worker Space</h1>
+                    <p class="text-xs sm:text-sm font-bold text-[#FFD200] tracking-wide uppercase">ROYAL ROBOT MAIL</p>
+                </div>
+            </div>
+
+            <!-- Staff Session Info & Log Out (Isolated from Customer Pages) -->
+            <div class="flex items-center gap-3">
+                <span id="worker-badge-id" class="text-xs font-bold text-white/90 hidden sm:inline-block"></span>
+                <button type="button" onclick="handleWorkerLogout()" class="border-2 border-white text-white hover:bg-white hover:text-[#D71920] font-bold px-3.5 py-1.5 text-xs uppercase transition-colors cursor-pointer">
+                    Log out
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content container -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+        <div id="action-feedback" class="plain-card px-4 py-3 text-sm font-medium text-gray-900 border-l-4 border-l-[#D71920] hidden" role="status"></div>
+
+        <!-- Top overview cards: Robot & Navigation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Card 1: Robot -->
+            <section class="plain-card p-6 flex flex-col justify-between space-y-5">
+                <div>
+                    <h2 class="text-lg font-extrabold text-gray-900 border-b border-gray-200 pb-3 mb-4">Robot</h2>
+
+                    <dl class="space-y-2.5 text-sm">
+                        <div class="flex justify-between gap-4">
+                        <dt class="text-slate-600 font-medium">Current Status:</dt>
+                        <dd id="robot-status-val" class="font-bold text-gray-900 text-right">Delivering Mail</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                    <dt class="text-slate-600 font-medium">Current Location:</dt>
+                    <dd id="robot-location-val" class="font-bold text-gray-900 text-right">Floor 2 - Corridor B</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                    <dt class="text-slate-600 font-medium">Destination:</dt>
+                    <dd id="robot-dest-val" class="font-bold text-gray-900 text-right">Y8-214 Engineering Office</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                    <dt class="text-slate-600 font-medium">Estimated Arrival:</dt>
+                    <dd id="robot-eta-val" class="font-bold text-gray-900 text-right">2 Minutes</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                    <dt class="text-slate-600 font-medium">Battery:</dt>
+                    <dd id="robot-battery-val" class="font-bold text-gray-900 text-right">86%</dd>
+                </div>
+                </dl>
+
+                <!-- Simple battery progress bar -->
+                <div class="mt-4">
+                    <div class="w-full h-3 bg-gray-200 overflow-hidden border border-gray-300">
+                        <div id="battery-progress-bar" class="h-full bg-[#D71920]" style="width: 86%;"></div>
+                    </div>
+                    <p class="text-xs text-slate-600 mt-1.5">Returns home at 25%</p>
+                </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" onclick="handleDispatchRobot()" class="px-4 py-2.5 bg-[#D71920] text-white text-sm font-bold cursor-pointer">
+                Dispatch Robot
+            </button>
+            <button type="button" onclick="handleRecallToDock()" class="px-4 py-2.5 bg-white text-gray-900 text-sm font-bold border border-gray-400 cursor-pointer">
+                Recall To Dock
+            </button>
+        </div>
+        </section>
+
+        <!-- Card 2: Navigation -->
+        <section class="plain-card p-6">
+            <h2 class="text-lg font-extrabold text-gray-900 border-b border-gray-200 pb-3 mb-4">Navigation</h2>
+
+            <dl class="space-y-3 text-sm">
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Current Floor:</dt>
+                <dd id="nav-floor-val" class="font-bold text-gray-900 text-right">Floor 2</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Current Corridor:</dt>
+                <dd id="nav-corridor-val" class="font-bold text-gray-900 text-right">Corridor B</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Destination Room:</dt>
+                <dd id="nav-room-val" class="font-bold text-gray-900 text-right">Y8-214</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Route Status:</dt>
+                <dd id="nav-route-val" class="font-bold text-gray-900 text-right">Active</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Lift Status:</dt>
+                <dd id="nav-lift-val" class="font-bold text-gray-900 text-right">Moving To Floor 2</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Obstacle Status:</dt>
+                <dd id="nav-obstacle-val" class="font-bold text-gray-900 text-right">Path Clear</dd>
+                </div>
+            </dl>
+        </section>
+        </div>
+
+        <!-- Card 3: Compartments (Stacked Plain-Text Rows) -->
+        <section class="plain-card p-6">
+            <h2 class="text-lg font-extrabold text-gray-900 border-b border-gray-200 pb-3 mb-4">Compartments</h2>
+            <div id="compartments-list" class="space-y-3">
+            </div>
+        </section>
+
+        <!-- Operations Tabs Navigation -->
+        <nav class="border-b border-gray-300 flex items-center gap-6 overflow-x-auto" aria-label="Operations Sections">
+            <button type="button" onclick="switchTab('queue', this)" class="nav-tab pb-3 text-sm font-bold text-[#D71920] border-b-4 border-[#D71920] whitespace-nowrap cursor-pointer">
+                Dispatch Queue
+            </button>
+            <button type="button" onclick="switchTab('failed', this)" class="nav-tab pb-3 text-sm font-semibold text-slate-600 border-b-4 border-transparent whitespace-nowrap cursor-pointer">
+                Failed Deliveries
+            </button>
+            <button type="button" onclick="switchTab('collections', this)" class="nav-tab pb-3 text-sm font-semibold text-slate-600 border-b-4 border-transparent whitespace-nowrap cursor-pointer">
+                Collections
+            </button>
+            <button type="button" onclick="switchTab('battery', this)" class="nav-tab pb-3 text-sm font-semibold text-slate-600 border-b-4 border-transparent whitespace-nowrap cursor-pointer">
+                Battery Health
+            </button>
+            <button type="button" onclick="switchTab('system', this)" class="nav-tab pb-3 text-sm font-semibold text-slate-600 border-b-4 border-transparent whitespace-nowrap cursor-pointer">
+                System Status
+            </button>
+        </nav>
+
+        <!-- TAB 1: Dispatch Queue -->
+        <section id="tab-queue" class="tab-panel plain-card p-6 space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-3">
+                <h2 class="text-lg font-extrabold text-gray-900">Dispatch Queue</h2>
+                <button type="button" onclick="reorderRouteByPriority()" class="px-4 py-2 bg-[#FFD200] text-gray-900 text-sm font-bold border border-gray-400 cursor-pointer">
+                    Reorder Route
+                </button>
+            </div>
+            <form onsubmit="addNewParcel(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 bg-[#F2F2F2] p-4 border border-gray-300 items-end">
+                <div>
+                    <label for="input-recipient" class="block text-xs font-bold text-gray-800 mb-1">Recipient</label>
+                    <input id="input-recipient" type="text" required placeholder="e.g. Admissions" class="w-full px-3 py-2 bg-white border border-gray-300 text-sm">
+                </div>
+                <div>
+                    <label for="input-room" class="block text-xs font-bold text-gray-800 mb-1">Room</label>
+                    <input id="input-room" type="text" required placeholder="e.g. Y8-108" class="w-full px-3 py-2 bg-white border border-gray-300 text-sm">
+                </div>
+                <div>
+                    <label for="input-priority" class="block text-xs font-bold text-gray-800 mb-1">Priority</label>
+                    <select id="input-priority" class="w-full px-3 py-2 bg-white border border-gray-300 text-sm">
+                        <option value="High">High</option>
+                        <option value="Normal" selected>Normal</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="input-compartment" class="block text-xs font-bold text-gray-800 mb-1">Compartment</label>
+                    <select id="input-compartment" class="w-full px-3 py-2 bg-white border border-gray-300 text-sm">
+                        <option value="1">Compartment 1</option>
+                        <option value="2">Compartment 2</option>
+                        <option value="3">Compartment 3</option>
+                        <option value="4" selected>Compartment 4</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="w-full px-4 py-2 bg-[#D71920] text-white text-sm font-bold cursor-pointer">
+                        Add To Queue
+                    </button>
+                </div>
+            </form>
+
+            <!-- Dispatch Queue Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-gray-300 text-gray-900">
+                            <th class="py-2.5 px-3 font-bold">Recipient</th>
+                            <th class="py-2.5 px-3 font-bold">Room</th>
+                            <th class="py-2.5 px-3 font-bold">Priority</th>
+                            <th class="py-2.5 px-3 font-bold">Delivery Order</th>
+                            <th class="py-2.5 px-3 font-bold text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="queue-table-body" class="divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 2: Failed Deliveries -->
+        <section id="tab-failed" class="tab-panel plain-card p-6 space-y-4 hidden">
+            <h2 class="text-lg font-extrabold text-gray-900 border-b border-gray-200 pb-3">Failed Deliveries</h2>
+            <div id="failed-deliveries-container" class="space-y-4">
+            </div>
+        </section>
+
+        <!-- TAB 3: Collections -->
+        <section id="tab-collections" class="tab-panel plain-card p-6 space-y-4 hidden">
+            <h2 class="text-lg font-extrabold text-gray-900 border-b border-gray-200 pb-3">Collections</h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-gray-300 text-gray-900">
+                            <th class="py-2.5 px-3 font-bold">Compartment Number</th>
+                            <th class="py-2.5 px-3 font-bold">Door State</th>
+                            <th class="py-2.5 px-3 font-bold">Collection State</th>
+                            <th class="py-2.5 px-3 font-bold">Recipient Verification</th>
+                        </tr>
+                    </thead>
+                    <tbody id="collections-table-body" class="divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 4: Battery Health -->
+        <section id="tab-battery" class="tab-panel plain-card p-6 hidden">
+            <h2 class="text-lg font-extrabold text-gray-900 border-b border-gray-200 pb-3 mb-4">Battery Health</h2>
+
+            <dl class="space-y-3 text-sm max-w-lg">
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">State Of Charge:</dt>
+                <dd class="font-bold text-gray-900">86%</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Estimated Runtime:</dt>
+                <dd class="font-bold text-gray-900">3.2 Hours</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Battery Temperature:</dt>
+                <dd class="font-bold text-gray-900">28°C</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">State Of Health:</dt>
+                <dd class="font-bold text-gray-900">Good</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Charging Status:</dt>
+                <dd id="bat-charging-val" class="font-bold text-gray-900">Not Charging</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Dock Status:</dt>
+                <dd id="bat-dock-val" class="font-bold text-gray-900">Away From Dock</dd>
+                </div>
+            </dl>
+        </section>
+
+        <!-- TAB 5: System Status -->
+        <section id="tab-system" class="tab-panel plain-card p-6 space-y-5 hidden">
+            <h2 class="text-lg font-extrabold text-gray-900 border-b border-gray-200 pb-3">System Status</h2>
+
+            <dl class="space-y-3 text-sm max-w-lg">
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Navigation System:</dt>
+                <dd id="sys-nav-val" class="font-bold text-gray-900">Online</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">LiDAR:</dt>
+                <dd class="font-bold text-gray-900">Active</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Camera:</dt>
+                <dd class="font-bold text-gray-900">Active</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Wheel Encoders:</dt>
+                <dd class="font-bold text-gray-900">Active</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Accelerometer:</dt>
+                <dd class="font-bold text-gray-900">Active</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Cloud Connection:</dt>
+                <dd class="font-bold text-gray-900">Connected</dd>
+                </div>
+                <div class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                <dt class="text-slate-600 font-medium">Motor Controllers:</dt>
+                <dd id="sys-motors-val" class="font-bold text-gray-900">Online</dd>
+                </div>
+                <div class="flex justify-between gap-4">
+                <dt class="text-slate-600 font-medium">Emergency Stop:</dt>
+                <dd id="sys-estop-val" class="font-bold text-gray-900">Not Activated</dd>
+                </div>
+            </dl>
+
+            <div class="pt-2">
+                <button type="button" id="btn-toggle-estop" onclick="toggleEmergencyStop()" class="px-4 py-2.5 bg-[#D71920] text-white text-sm font-bold cursor-pointer">
+                    Activate Emergency Stop
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Consolidated JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
+<!-- WORKER DASHBOARD PAGE END -->

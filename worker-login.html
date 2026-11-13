@@ -1,0 +1,217 @@
+﻿<!-- WORKER LOGIN PAGE START -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker's Account Login - Royal Robot Mail</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Consolidated Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="page-worker-login min-h-screen flex flex-col justify-between selection:bg-[#D71920] selection:text-white bg-watermark">
+
+    <!-- 1. Header Bar -->
+    <header class="bg-[#D71920] w-full py-4 px-4 sm:px-6 md:px-12 shadow-sm border-b border-[#B51218] sticky top-0 z-40">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+            <!-- Brand Logo and Gold Text -->
+            <div class="flex items-center gap-3 py-1 px-1.5" aria-label="Royal Robot Mail Staff Portal">
+
+                <!-- Logo -->
+                <div class="logo-container flex-shrink-0 min-w-[40px] h-10 px-2 bg-black/20 flex items-center justify-center border border-amber-400/50 border-dashed">
+                    <div class="logo-container flex-shrink-0 h-10 flex items-center justify-center">
+                        <img src="robotmaillogo.png" alt="Royal Robot Mail Logo" class="h-10 w-auto object-contain"
+                             onerror="this.onerror=null; this.src='https://placehold.co/100x40/ffffff/D71920?text=RRM';">
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <!-- Gold "Royal Robot Mail" Heading -->
+                    <span class="font-black text-xl sm:text-2xl tracking-wider leading-none uppercase font-sans text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-300 to-yellow-500 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                        Royal Robot Mail
+                    </span>
+                </div>
+            </div>
+
+            <!-- Help section -->
+            <div class="flex items-center gap-4 text-white text-xs sm:text-sm font-medium">
+                <a href="#help" onclick="showNotification('Staff Support', 'Need staff access assistance? Contact IT Helpdesk or your post-room supervisor.')" class="hover:underline flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-white px-2 py-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Help & Support</span>
+                </a>
+                <span class="text-white/40 hidden sm:inline">|</span>
+                <span class="text-white/90 hidden sm:inline-block">GB (EN)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Main area -->
+    <main class="flex-grow flex items-center justify-center py-10 sm:py-16 px-4">
+
+        <div class="w-full max-w-[440px] bg-white border border-[#BEBEBE] shadow-[0_4px_16px_rgba(0,0,0,0.06)] p-6 sm:p-10 relative">
+
+            <!-- Card Header Title -->
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-[#111111] mb-8 text-center tracking-tight">
+                Worker's Account Login
+            </h1>
+
+            <!-- Worker Login Form -->
+            <form id="workerLoginForm" onsubmit="handleWorkerLoginSubmit(event)" novalidate class="space-y-6">
+
+                <!-- Field 1: Worker ID -->
+                <div class="form-group flex flex-col relative">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="workerId" class="text-sm font-bold text-[#111111] flex items-center gap-1">
+                            <span>Worker ID</span>
+                            <span class="text-[#D71920] font-bold" aria-hidden="true">*</span>
+                        </label>
+
+                        <!-- Tooltip Button for Worker ID -->
+                        <div class="relative">
+                            <button type="button"
+                                    onclick="toggleTooltip('workerIdTooltip')"
+                                    onblur="hideTooltip('workerIdTooltip')"
+                                    aria-label="Worker ID help"
+                                    class="w-5 h-5 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold text-xs flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#D71920]">
+                                ?
+                            </button>
+                            <!-- Tooltip Popover -->
+                            <div id="workerIdTooltip" class="tooltip-popover hidden absolute right-0 top-7 w-64 p-3 bg-[#111111] text-white text-xs z-30 shadow-lg border-l-4 border-[#D71920]">
+                                Enter your assigned Post-Room Staff / Worker ID (e.g. WORKER01).
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="text"
+                           id="workerId"
+                           name="workerId"
+                           autocomplete="username"
+                           required
+                           placeholder="e.g. WORKER01"
+                           onblur="validateWorkerField('workerId')"
+                           oninput="clearError('workerId')"
+                           class="custom-input w-full px-3.5 py-3 text-sm sm:text-base font-normal placeholder-gray-400 focus:outline-none">
+                    <span id="workerIdError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Please enter your Worker ID.</span>
+                    </span>
+                </div>
+
+                <!-- Field 2: Password -->
+                <div class="form-group flex flex-col relative">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="workerPassword" class="text-sm font-bold text-[#111111] flex items-center gap-1">
+                            <span>Password</span>
+                            <span class="text-[#D71920] font-bold" aria-hidden="true">*</span>
+                        </label>
+
+                        <!-- Tooltip Button for Password -->
+                        <div class="relative">
+                            <button type="button"
+                                    onclick="toggleTooltip('workerPasswordTooltip')"
+                                    onblur="hideTooltip('workerPasswordTooltip')"
+                                    aria-label="Password help"
+                                    class="w-5 h-5 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold text-xs flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#D71920]">
+                                ?
+                            </button>
+                            <!-- Tooltip Popover -->
+                            <div id="workerPasswordTooltip" class="tooltip-popover hidden absolute right-0 top-7 w-64 p-3 bg-[#111111] text-white text-xs z-30 shadow-lg border-l-4 border-[#D71920]">
+                                Staff passwords are case-sensitive. Contact the post-room supervisor if locked out.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <input type="password"
+                               id="workerPassword"
+                               name="workerPassword"
+                               autocomplete="current-password"
+                               required
+                               placeholder="••••••••"
+                               onblur="validateWorkerField('workerPassword')"
+                               oninput="clearError('workerPassword')"
+                               class="custom-input w-full px-3.5 py-3 text-sm sm:text-base font-normal placeholder-gray-400 focus:outline-none pr-10">
+                        <button type="button"
+                                onclick="togglePasswordVisibility('workerPassword', 'workerEyeIcon')"
+                                class="absolute right-3 top-3.5 text-gray-500 hover:text-[#111111] text-xs font-semibold focus:outline-none"
+                                aria-label="Toggle password visibility">
+                            <svg id="workerEyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <span id="workerPasswordError" class="text-xs font-semibold text-[#D71920] mt-1.5 hidden flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Please enter your worker password.</span>
+                    </span>
+                </div>
+
+                <!-- Login button -->
+                <div class="pt-2">
+                    <button type="submit"
+                            id="workerLoginSubmitBtn"
+                            class="btn-primary w-full py-3.5 px-6 text-white font-bold text-base sm:text-lg shadow-sm flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-[#D71920]/30 cursor-pointer uppercase tracking-wider">
+                        Login
+                    </button>
+                </div>
+            </form>
+
+            <!-- Back to Secure Login Link (No link to Registration or Customer Tracking) -->
+            <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                <a href="login.html"
+                   class="text-sm font-semibold text-[#111111] hover:underline underline-offset-4 focus:outline-none focus:ring-1 focus:ring-[#D71920] py-0.5 inline-block">
+                    ← Back to Secure Login
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER BAR -->
+    <footer class="bg-white border-t border-gray-200 py-4 px-4 text-center text-xs text-[#666666]">
+        <div class="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© 2026 Royal Robot Mail. Staff Portal.</p>
+            <div class="flex items-center gap-4">
+                <a href="#privacy" onclick="showNotification('Privacy', 'Royal Robot Mail Staff Security Protocol.')" class="hover:underline">Privacy Notice</a>
+                <span>•</span>
+                <a href="#terms" onclick="showNotification('Terms', 'Internal Post-Room Operations Policy.')" class="hover:underline">Staff Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick notifications -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 max-w-sm bg-[#111111] text-white p-4 shadow-xl flex items-start gap-3 translate-y-24 opacity-0 transition-all duration-300 z-50">
+        <div class="w-6 h-6 text-[#D71920] shrink-0 mt-0.5">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 102 0v-4a1 1 0 10-2 0v4z" clip-rule="evenodd" />
+            </svg>
+        </div>
+        <div class="flex-grow">
+            <h4 id="toastTitle" class="text-sm font-bold text-white mb-0.5">Notification</h4>
+            <p id="toastMessage" class="text-xs text-gray-300">Message content here.</p>
+        </div>
+        <button type="button" onclick="hideToast()" class="text-gray-400 hover:text-white text-xs font-bold p-1">✕</button>
+    </div>
+
+    <!-- Consolidated JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
+<!-- WORKER LOGIN PAGE END -->

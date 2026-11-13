@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royal Robot Mail - Parcel Tracking</title>
+
+    <!-- Tailwind CSS for layout & typography -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Consolidated Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="page-tracking min-h-screen flex flex-col antialiased bg-white">
+
+    <!-- Top header Bar with Yellow Brand and Logo -->
+    <header class="bg-[#D71920] w-full border-b border-red-800">
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+
+            <!-- Logo and Gold title -->
+            <a href="index.html" class="flex items-center space-x-3">
+                <img src="robotmaillogo.png" alt="Royal Robot Mail Logo" class="h-10 w-auto bg-white p-1 rounded-none shadow-sm object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x40/ffffff/D71920?text=RRM';">
+                <h1 class="text-lg sm:text-xl font-black text-[#FFD200] tracking-tight leading-none uppercase">
+                    ROYAL ROBOT MAIL
+                </h1>
+            </a>
+
+            <!-- Header Action Controls and Stage Selector -->
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-2 bg-red-900/60 px-2 py-1 rounded-none text-xs text-white">
+                    <label for="stage-select-dropdown" class="font-bold text-[11px] text-amber-200">Demo Stage:</label>
+                    <select id="stage-select-dropdown" onchange="setDemoState(this.value)" class="bg-white text-[#D71920] font-bold px-2 py-1 rounded-none text-xs focus:outline-none cursor-pointer">
+                        <option value="delivered" selected>1. Delivered</option>
+                        <option value="out_for_delivery">2. Out for Delivery</option>
+                        <option value="transit">3. In Transit</option>
+                        <option value="processing">4. Processing</option>
+                        <option value="prepped">5. Prepped</option>
+                    </select>
+                </div>
+                <button type="button" onclick="handleCustomerLogout()" class="border border-white text-white hover:bg-white hover:text-[#D71920] font-bold px-3 py-1 text-xs uppercase transition-colors cursor-pointer">
+                    Log out
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Top Accent Bar -->
+    <div class="bg-[#D71920] h-10 w-full relative"></div>
+
+    <!-- Headline -->
+    <div class="relative flex flex-col items-center justify-center -mt-8 px-4">
+
+        <!-- Center Overlapping Dark Square Box with the White Pixel Checkmark -->
+        <div id="hero-badge" class="w-16 h-16 bg-[#333333] rounded-none flex items-center justify-center shadow-md z-10">
+            <svg class="w-8 h-8 fill-white pixel-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <rect x="12" y="3" width="2" height="2" />
+                <rect x="10" y="5" width="2" height="2" />
+                <rect x="8" y="7" width="2" height="2" />
+                <rect x="6" y="9" width="2" height="2" />
+                <rect x="4" y="11" width="2" height="2" />
+                <rect x="2" y="9" width="2" height="2" />
+            </svg>
+        </div>
+
+        <!-- Dynamic Headline & Subtitle -->
+        <div class="text-center mt-6 space-y-1.5 max-w-md">
+            <h2 id="hero-title" class="text-3xl sm:text-4xl font-extrabold text-[#333333] tracking-tight">
+                It's delivered
+            </h2>
+            <p id="hero-subtitle" class="text-sm sm:text-base text-gray-600 font-normal">
+                Parcel delivered - over and out
+            </p>
+        </div>
+
+        <!-- Solid Dark Progress Bar Track with a Square Marker -->
+        <div class="w-full max-w-[420px] mt-7 mb-5">
+            <div class="relative w-full h-[6px] bg-[#333333] rounded-none">
+                <div id="progress-square" class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-[#333333] rounded-none right-0 translate-x-1"></div>
+            </div>
+        </div>
+
+        <!-- Bordered Tracking Number Box with a Copy button -->
+        <div class="bg-white border border-gray-300 px-5 py-2.5 rounded-none flex items-center space-x-3 shadow-2xs">
+            <span class="text-xs sm:text-sm font-bold tracking-wider text-[#333333]">TRACKING NO:</span>
+            <span id="tracking-id-value" class="text-xs sm:text-sm font-extrabold font-mono text-[#333333]">RRM-9941-2026-UK</span>
+            <button type="button" onclick="copyTrackingNo()" title="Copy Tracking Number" class="text-gray-500 hover:text-black ml-1 transition-colors">
+                <i class="fa-regular fa-copy text-base"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Out for Delivery and QR Code Notification Card -->
+    <div id="out-for-delivery-card" class="max-w-[440px] mx-auto w-full px-4 mt-8 hidden">
+        <div class="bg-white rounded-none shadow-sm border border-gray-300 p-4">
+            <div class="bg-[#E8F4FD] border border-blue-100 rounded-none p-3.5 flex items-center space-x-3 text-xs text-slate-700">
+                <i class="fa-solid fa-envelope-open-text text-blue-600 text-sm flex-shrink-0"></i>
+                <span class="font-semibold">Check your email for your QR code and Collection code</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN TIMELINE SECTION: Events Layout -->
+    <main class="flex-1 max-w-[420px] w-full mx-auto px-4 pt-10 pb-16">
+
+        <div id="timeline-wrapper" class="relative pl-6 space-y-7">
+            <!-- Thin Vertical Connecting Line -->
+            <div class="absolute left-[7px] top-[10px] bottom-[10px] w-[2px] bg-gray-200 z-0"></div>
+
+            <!-- 1. Event: Delivery done -->
+            <div class="relative flex items-start space-x-4 z-10" id="event-1">
+                <div class="w-3.5 h-3.5 bg-[#FFD200] flex-shrink-0 mt-1 shadow-2xs rounded-none" id="marker-1"></div>
+                <div class="space-y-0.5 text-left">
+                    <h3 class="font-extrabold text-[#333333] text-base leading-tight">Delivery done</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 font-normal">2 Nov, 7:29 PM</p>
+                </div>
+            </div>
+
+            <!-- 2. Event: At your office -->
+            <div class="relative flex items-start space-x-4 z-10" id="event-2">
+                <div class="w-3.5 h-3.5 bg-[#D1D5DB] flex-shrink-0 mt-1 rounded-none" id="marker-2"></div>
+                <div class="space-y-0.5 text-left">
+                    <h3 class="font-extrabold text-[#333333] text-base leading-tight">At your office</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 font-normal">2 Nov, 11:45 AM</p>
+                </div>
+            </div>
+
+            <!-- 3. Event: It's close, stay tuned -->
+            <div class="relative flex items-start space-x-4 z-10" id="event-3">
+                <div class="w-3.5 h-3.5 bg-[#D1D5DB] flex-shrink-0 mt-1 rounded-none" id="marker-3"></div>
+                <div class="space-y-0.5 text-left">
+                    <h3 class="font-extrabold text-[#333333] text-base leading-tight">It's close, stay tuned</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 font-normal">31 Oct, 9:18 AM</p>
+                </div>
+            </div>
+
+            <!-- 4. Event: Parcel on the move -->
+            <div class="relative flex items-start space-x-4 z-10" id="event-4">
+                <div class="w-3.5 h-3.5 bg-[#D1D5DB] flex-shrink-0 mt-1 rounded-none" id="marker-4"></div>
+                <div class="space-y-0.5 text-left">
+                    <h3 class="font-extrabold text-[#333333] text-base leading-tight">Parcel on the move</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 font-normal">30 Oct, 10:44 AM</p>
+                </div>
+            </div>
+
+            <!-- 5. Event: It's at the warehouse -->
+            <div class="relative flex items-start space-x-4 z-10" id="event-5">
+                <div class="w-3.5 h-3.5 bg-[#D1D5DB] flex-shrink-0 mt-1 rounded-none" id="marker-5"></div>
+                <div class="space-y-0.5 text-left">
+                    <h3 class="font-extrabold text-[#333333] text-base leading-tight">It's at the warehouse</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 font-normal">30 Oct, 9:13 AM</p>
+                </div>
+            </div>
+
+            <!-- 6. Event: Parcel being prepped -->
+            <div class="relative flex items-start space-x-4 z-10" id="event-6">
+                <div class="w-3.5 h-3.5 bg-[#D1D5DB] flex-shrink-0 mt-1 rounded-none" id="marker-6"></div>
+                <div class="space-y-0.5 text-left">
+                    <h3 class="font-extrabold text-[#333333] text-base leading-tight">Parcel being prepped</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 font-normal">26 Oct, 10:11 PM</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Consolidated JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>

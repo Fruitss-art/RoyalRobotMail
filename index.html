@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royal Robot Mail - Track Your Delivery</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Inter Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Consolidated Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="page-home min-h-screen flex flex-col justify-between selection:bg-[#D71920] selection:text-white">
+
+    <!-- HEADER -->
+    <header class="bg-[#D71920] border-b-4 border-[#FFD200] w-full py-3.5 px-4 sm:px-8 shadow-xs sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+
+            <!-- Left Side for Logo slot and a flat yellow title -->
+            <div class="flex items-center space-x-3.5">
+                <div class="logo-slot border border-[#FFD200] p-1 bg-[#D71920] flex items-center justify-center">
+                    <img src="robotmaillogo.png" alt="Royal Robot Mail Logo" class="h-8 sm:h-9 w-auto object-contain"
+                         onerror="this.onerror=null; this.parentNode.innerHTML='<svg class=\'w-7 h-7 text-[#FFD200]\' viewBox=\'0 0 24 24\' fill=\'currentColor\'><path d=\'M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z\'/><rect x=\'3\' y=\'18\' width=\'18\' height=\'3\'/></svg>';">
+                </div>
+
+                <h1 class="text-xl sm:text-2xl font-black text-[#FFD200] tracking-tight leading-none uppercase">
+                    Royal Robot Mail
+                </h1>
+            </div>
+
+            <!-- Navigation Links and Log Out Button -->
+            <div class="flex items-center space-x-3 sm:space-x-6 text-xs sm:text-sm">
+                <a href="login.html" class="text-white hover:underline font-semibold focus:outline-none">
+                    Login <span class="text-white/60 mx-1">|</span> Register
+                </a>
+
+                <button type="button" onclick="handleCustomerLogout()" class="border-2 border-white text-white hover:bg-white hover:text-[#D71920] font-bold px-4 py-1.5 rounded-none transition-colors focus:outline-none">
+                    Log out
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN HERO & TRACKING SECTION -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 flex items-center">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center w-full">
+
+            <div class="lg:col-span-6 space-y-2 text-left">
+                <p class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#111111] tracking-tight">
+                    Welcome to,
+                </p>
+
+                <h2 class="hero-title-flat font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.92] uppercase tracking-tight">
+                    ROYAL<br>
+                    ROBOT<br>
+                    MAIL<br>
+                    SERVICE
+                </h2>
+
+                <!-- Caption -->
+                <p class="text-base sm:text-lg text-[#666666] font-medium pt-3">
+                    Brought to you by Team Red
+                </p>
+            </div>
+
+            <!-- Interactive Tracking Card -->
+            <div class="lg:col-span-6 flex justify-center lg:justify-end">
+
+                <div class="w-full max-w-lg relative pt-4">
+
+                    <div class="inline-block bg-[#D71920] text-white font-extrabold text-base px-8 py-2.5 rounded-t-xl border-t border-x border-[#D71920]">
+                        Track
+                    </div>
+
+                    <div class="bg-white rounded-b-2xl rounded-tr-2xl shadow-xl p-6 sm:p-9 border border-gray-100 relative z-10">
+
+                        <!-- Card Header -->
+                        <h3 class="text-2xl sm:text-3xl font-bold text-[#111111] tracking-tight mb-1">
+                            Track your delivery
+                        </h3>
+                        <p class="text-sm text-[#666666] font-normal mb-6 sm:mb-8">
+                            Enter your parcel details below to check its journey.
+                        </p>
+
+                        <!-- Tracking Input Form -->
+                        <form id="tracking-form" onsubmit="handleTrackingSearch(event)" class="space-y-6" novalidate>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                                <!-- Field 1: Parcel ID -->
+                                <div>
+                                    <label for="parcel-id" class="block text-xs font-bold text-[#111111] uppercase tracking-wider mb-2">
+                                        Parcel ID
+                                    </label>
+                                    <input type="text" id="parcel-id" required placeholder="e.g. RRM123456"
+                                           class="custom-input w-full px-4 py-3 text-sm sm:text-base font-medium text-[#111111] placeholder-gray-400 bg-white">
+                                    <span id="parcel-id-error" class="text-xs font-semibold text-[#D71920] mt-1 hidden block">
+                                        Please enter a Parcel ID.
+                                    </span>
+                                </div>
+
+                                <!-- Field 2: Office Room -->
+                                <div>
+                                    <label for="office-room" class="block text-xs font-bold text-[#111111] uppercase tracking-wider mb-2">
+                                        Office Room
+                                    </label>
+                                    <input type="text" id="office-room" placeholder="e.g. Y8-224"
+                                           class="custom-input w-full px-4 py-3 text-sm sm:text-base font-medium text-[#111111] placeholder-gray-400 bg-white">
+                                </div>
+
+                            </div>
+
+                            <!-- Action Button -->
+                            <div class="pt-2">
+                                <button type="submit"
+                                        class="w-full bg-[#D71920] hover:bg-[#b51218] active:scale-[0.99] text-white font-extrabold py-3.5 px-6 rounded-full shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 text-base sm:text-lg cursor-pointer">
+                                    <!-- Crosshairs Target Icon -->
+                                    <svg class="w-5 h-5 text-white stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" />
+                                        <circle cx="12" cy="12" r="3" fill="currentColor" />
+                                        <path stroke-linecap="round" stroke-width="2" d="M12 2v3m0 14v3M2 12h3m14 0h3" />
+                                    </svg>
+                                    <span>Track your delivery</span>
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Consolidated JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
